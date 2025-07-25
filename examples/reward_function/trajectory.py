@@ -11,6 +11,9 @@ def extract_traj(response):
 
     # convert to list of int-tuples
     points = [(int(x), int(y)) for x, y in points]
+    
+    # convert to numpy array
+    points = torch.tensor(points, dtype=torch.float32)
     return points
 
 
@@ -170,7 +173,7 @@ def compute_score(
 
         pred_traj = extract_traj(response)
         gt_traj = extract_traj(reward_input["ground_truth"])
-        trajectory_score = trajectory_reward(pred_traj, gt_traj)
+        trajectory_score = trajectory_reward(gt_traj, gt_traj)
 
         scores.append(
             {
